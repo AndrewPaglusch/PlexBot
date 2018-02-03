@@ -23,7 +23,9 @@ mkdir -p /opt/<your_telegram_bot_name/
 cd /opt/<your_telegram_bot_name/
 git clone git@github.com:AndrewPaglusch/PlexBot.git
 cp settings.rb-example settings.rb
+cp scripts-example scripts
 #edit your settings.rb file
+#edit scripts in scripts directory
 ```
 
 # Daemonize
