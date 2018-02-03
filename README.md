@@ -14,7 +14,7 @@ Add your Plex users to the Telegram group so they can use the bot to request new
 
 # Installation
 
-## RHEL/Fedora 7+
+## RHEL/CentOS 7.X
 
 ```
 yum -y install ruby rubygems
