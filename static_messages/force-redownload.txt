@@ -1,0 +1,5 @@
+This movie is already downloaded or queued for download.
+
+If there's something wrong with the current copy (foreign audio, poor quality, wrong movie, etc), you can force a re-download. This will **NOT** make a movie download faster.
+
+Force a re-download of this movie?

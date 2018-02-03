@@ -1,0 +1,27 @@
+@token = "<telegram_bot_token>" #contact @BotFather in Telegram to get this
+
+@authorized_chatids = [ "-9876543", "-1234567" ] #Authorized Telegram Chat IDs
+
+@admin_userids = [ "1234567" ] #Authorized Telegram UIDs that can run '/a' admin commands
+
+#Couchpotato Stuff
+@movie_url = "http://<ip_address_or_hostname_of_couchpotato>"
+@movie_context = "" #if CP is at 1.2.3.4/couchpotato/ or some other context
+@movie_port = "<couchpotato_port>"
+@movie_api_key = "<couchpotato_api_key>"
+@movie_profile_id = "<couchpotato_quality_profile_id>"
+@movie_timeout = 10
+
+#Sonarr Stuff
+@show_url = "http://<ip_address_or_hostname_of_sonarr>"
+@show_port = 8989
+@show_context = "" #if Sonarr is at 1.2.3.4/sonarr/ or some other context
+@show_api_key = "<sonarr_api_key>"
+@show_profile_id = "<sonarr_quality_profile_id>" 
+@show_timeout = 10
+@season_admin_cutoff = 10 #More than x season shows need to be downloaded by admin
+
+#Customizations
+@bot_username = "<telegram_bot_username>"
+@admin_name = "<first_name_of_telegram_group_admin"
+@admin_username = "<username_of_telegram_group_admin>"

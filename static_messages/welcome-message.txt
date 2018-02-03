@@ -1,0 +1,21 @@
+You're now a member of the <YOUR_TELEGRAM_GROUP_NAME_HERE> group! This group is your go-to line of communication with @<TELEGRAM_USERNAME_OF_PLEX_ADMIN> (the administrator of the Plex server) and all of the other Plex users.
+
+If you haven't already done so, you'll need to create a Plex account. You can do that by going to https://www.plex.tv/sign-up/ and registering for a FREE account. 
+
+Plex is likely going to offer to sell you different add-ons during your sign-up process. Just ignore them. You do not need to pay any money to get access to Plex.
+
+Once you're finished creating your Plex account, you'll need to be invited to the Plex server, which is known as "<YOUR_PLEX_SERVER_NAME>".
+
+To do this, send a message (in this group) to <TELEGRAM_USERNAME_OF_PLEX_ADMIN> and inform him that you need to be invited to "<YOUR_PLEX_SERVER_NAME>". 
+
+Make sure to tell him your username or email that you just used to register with. 
+
+@<TELEGRAM_USERNAME_OF_PLEX_ADMIN> will notify you once you've been invited to <YOUR_PLEX_SERVER_NAME>. You will need to accept the invitation, which will be in your email account, to finish getting access.
+
+One last thing: Members of this group are able to utilize a service named "<NAME_OF_YOUR_PLEX_BOT>". 
+
+<NAME_OF_YOUR_PLEX_BOT> enables you to accomplish many different things, such as downloading new movies that you'd like to watch, re-downloading broken movies, and downloading TV shows. 
+
+Go ahead and send the message "/help" in this chat to see what commands <NAME_OF_YOUR_PLEX_BOT> supports at this time. 
+
+Enjoy!

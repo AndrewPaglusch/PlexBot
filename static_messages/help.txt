@@ -1,0 +1,9 @@
+USAGE:
+
+/movie <Movie Name>
+/show <Show Name> 
+
+EXAMPLES:
+
+/movie Avatar
+/show The Walking Dead
