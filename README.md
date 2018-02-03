@@ -30,15 +30,15 @@ cp settings.rb-example settings.rb
 
 ## Make the Service
 
-`/etc/systemd/system/<your_bot_name>.service`. Insert the following:
+Create this file `/etc/systemd/system/<your_bot_name>.service`. 
+
+Insert the following:
 
 ```[Unit]
 Description=<your_bot_name> Telegram Bot
 After=network.target
 
 [Service]
-#StandardOutput=journal
-#StandardError=journal
 WorkingDirectory=/opt/plexbot
 Type=simple
 ExecStart=/usr/bin/ruby /<install_location>/run.rb
