@@ -47,6 +47,9 @@ def handle_callback_query(message)
     #verify an admin pressed this button
     return if message_from_admin?(message) == false
     command = command.split("!")[1]
+  elsif command.start_with?('#') then
+    #is this an ignored command
+    return
   end
 
   case command

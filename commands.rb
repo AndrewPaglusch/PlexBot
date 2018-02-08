@@ -51,11 +51,15 @@ def process_command_s(message)
       
       if s[:downloaded] == true then
         button_text = "* " + button_text
-      end
-
-      if s[:season_count] > @season_admin_cutoff
-        button_text = "+ #{button_text}"
-        callback_data = "!#{callback_data}"
+        #temp - disable this callback button
+        #havn't added a force-redownload option yet
+        callback_data = "##{callback_data}"	
+      else
+        #only check this if it's not downloaded yet
+        if s[:season_count] > @season_admin_cutoff
+          button_text = "+ #{button_text}"
+          callback_data = "!#{callback_data}"
+        end
       end
       options.insert(-1, Telegram::Bot::Types::InlineKeyboardButton.new(text: button_text, callback_data: callback_data))
     end
