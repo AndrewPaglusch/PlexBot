@@ -184,6 +184,12 @@ Telegram::Bot::Client.run(@token) do |bot|
     #Change message.from.username to something we can call the user
     #This makes referring to the user in replies much easier
     #@Username or their first name
+
+    if ! ["private","group"].include?(message.chat.type)
+      puts "Received message is not from a valid source! Type: \"#{message.chat.type}\". Ignoring."
+      next
+    end
+
     if ! message.from.username.nil? #Username -> @Username
       message.from.username = "@" + message.from.username + " "
     elsif ! message.from.first_name.nil? #Username -> John
