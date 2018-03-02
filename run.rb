@@ -184,7 +184,6 @@ Telegram::Bot::Client.run(@token) do |bot|
     #Change message.from.username to something we can call the user
     #This makes referring to the user in replies much easier
     #@Username or their first name
-    #DEBUG
 
     if ! ["private","group"].include?(message.chat.type)
       puts "Received message is not from a group! Type: \"#{message.chat.type}\". Ignoring."
