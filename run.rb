@@ -186,7 +186,7 @@ Telegram::Bot::Client.run(@token) do |bot|
     #@Username or their first name
 
     if ! ["private","group"].include?(message.chat.type)
-      puts "Received message is not from a group! Type: \"#{message.chat.type}\". Ignoring."
+      puts "Received message is not from a valid source! Type: \"#{message.chat.type}\". Ignoring."
       next
     end
 
