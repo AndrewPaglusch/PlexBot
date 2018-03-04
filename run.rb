@@ -185,7 +185,7 @@ Telegram::Bot::Client.run(@token) do |bot|
     #This makes referring to the user in replies much easier
     #@Username or their first name
 
-    if ! ["private","group"].include?(message.chat.type)
+    if ! ["private","group","supergroup"].include?(message.chat.type)
       puts "Received message is not from a valid source! Type: \"#{message.chat.type}\". Ignoring."
       next
     end
