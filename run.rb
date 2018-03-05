@@ -181,24 +181,22 @@ STDOUT.sync = true
 #Main loop - listen for new messages
 Telegram::Bot::Client.run(@token) do |bot|
   bot.listen do |message|
+
     #Change message.from.username to something we can call the user
     #This makes referring to the user in replies much easier
     #@Username or their first name
-
-    if ! ["private","group","supergroup"].include?(message.chat.type)
-      puts "Received message is not from a valid source! Type: \"#{message.chat.type}\". Ignoring."
-      next
-    end
-
     if ! message.from.username.nil? #Username -> @Username
       message.from.username = "@" + message.from.username + " "
     elsif ! message.from.first_name.nil? #Username -> John
       message.from.username = message.from.first_name + ", "
     end
 
-    #message or callback query?
     case message
       when Telegram::Bot::Types::Message
+        if ! @allowed_sources.include?(message.chat.type)
+          puts "Received message is not from a valid source! Type: \"#{message.chat.type}\". Ignoring."
+          next
+        end
         if @authorized_chatids.include? message.chat.id.to_s then
            handle_message(message) #entrypoint for all messages
         else  
@@ -209,6 +207,10 @@ Telegram::Bot::Client.run(@token) do |bot|
           end
         end
       when Telegram::Bot::Types::CallbackQuery
+        if ! @allowed_sources.include?(message.message.chat.type)
+          puts "Received message is not from a valid source! Type: \"#{message.message.chat.type}\". Ignoring."
+          next
+        end
         if @authorized_chatids.include? message.message.chat.id.to_s then
           handle_callback_query(message) #entrypoint for all callback queries
         end
