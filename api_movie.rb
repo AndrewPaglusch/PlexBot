@@ -1,6 +1,5 @@
 def search_movie(title)
   query = "movie.search?q=#{title}"
-
   results = JSON.parse(api_query_movie(query), :symbolize_names => true)
  
   #movies = multiple results
