@@ -91,7 +91,7 @@ def api_query(endpoint, query, postdata = "")
       #Make the request
       response = request.start {|req| req.get(url) }
     rescue
-      return $!.message
+      raise $!.message
     end
   
     return response.body
@@ -108,7 +108,7 @@ def api_query(endpoint, query, postdata = "")
         http.request(request)
       end
     rescue
-      return $!.message
+      raise $!.message
     end
 
     return response.body

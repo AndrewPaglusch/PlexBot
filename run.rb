@@ -131,7 +131,14 @@ def handle_exception(e, message, notify_users)
   puts "=" * 60
 
   if notify_users == true then
-    send_message(message.message.chat.id, "The bot has run into an issue while processing a request.\n\nAsk #{@admin_name} (@#{@admin_username}) for assistance.")
+    #is this a callback query or a message
+    case message
+      when Telegram::Bot::Types::Message
+        send_message(message.chat.id, "The bot has run into an issue while processing a request.\n\nAsk #{@admin_name} (@#{@admin_username}) for assistance.")
+      when Telegram::Bot::Types::CallbackQuery
+        pp message
+        send_message(message.message.chat.id, "The bot has run into an issue while processing a request.\n\nAsk #{@admin_name} (@#{@admin_username}) for assistance.")
+      end
   end
 end
 
