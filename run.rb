@@ -169,6 +169,13 @@ def send_question(chatid, question_text, answers = [ ])
   end
 end
 
+def validate_incoming_data(message)
+  message = message.message if message.is_a? Telegram::Bot::Types::CallbackQuery
+  return "Received message is not from a valid source! Type: \"#{message.chat.type}\". Ignoring." if ! @allowed_sources.include?(message.chat.type) 
+  return "Unauthorized user sent message. User ID: #{message.from.id} Source ID: #{message.chat.id}." if ! @authorized_chatids.include?(message.chat.id.to_s)
+  return true
+end
+
 #DEBUG
 #puts get_show_profile_list
 #puts get_movie_profile_list
@@ -184,38 +191,27 @@ STDOUT.sync = true
 Telegram::Bot::Client.run(@token) do |bot|
   bot.listen do |message|
 
-    #Change message.from.username to something we can call the user
-    #This makes referring to the user in replies much easier
-    #@Username or their first name
-    if ! message.from.username.nil? #Username -> @Username
-      message.from.username = "@" + message.from.username + " "
-    elsif ! message.from.first_name.nil? #Username -> John
-      message.from.username = message.from.first_name + ", "
-    end
+    validation = validate_incoming_data(message)
 
-    case message
-      when Telegram::Bot::Types::Message
-        if ! @allowed_sources.include?(message.chat.type)
-          puts "Received message is not from a valid source! Type: \"#{message.chat.type}\". Ignoring."
-          next
-        end
-        if @authorized_chatids.include? message.chat.id.to_s then
-           handle_message(message) #entrypoint for all messages
-        else  
-          begin
-            send_message(message.chat.id, "Not authorized. Group ID: '#{message.chat.id}'")
-            puts "Unauthorized user (#{message.chat.id}) sent message."
-          rescue
-          end
-        end
-      when Telegram::Bot::Types::CallbackQuery
-        if ! @allowed_sources.include?(message.message.chat.type)
-          puts "Received message is not from a valid source! Type: \"#{message.message.chat.type}\". Ignoring."
-          next
-        end
-        if @authorized_chatids.include? message.message.chat.id.to_s then
+    if validation == true then
+      #Change message.from.username to something we can call the user
+      #This makes referring to the user in replies much easier
+      #@Username or their first name
+      if ! message.from.username.nil? #Username -> @Username
+        message.from.username = "@" + message.from.username + " "
+      elsif ! message.from.first_name.nil? #Username -> John
+        message.from.username = message.from.first_name + ", "
+      end
+
+      case message
+        when Telegram::Bot::Types::Message
+          handle_message(message) #entrypoint for all messages
+        when Telegram::Bot::Types::CallbackQuery
           handle_callback_query(message) #entrypoint for all callback queries
         end
-      end
+    else
+      puts validation
+    end
+
   end
 end
