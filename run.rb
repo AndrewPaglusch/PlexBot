@@ -29,11 +29,7 @@ def ack_callback(message, display_message = true)
 end
 
 def message_from_admin?(message)
-  if @admin_userids.include? message.from.id.to_s
-    return true
-  else
-    return false
-  end
+  return @admin_userids.include? message.from.id.to_s
 end
 
 def handle_callback_query(message)
