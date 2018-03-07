@@ -103,7 +103,7 @@ WantedBy=multi-user.target
 
 ### Enable & Start
 
-```
+```bash
 systemctl enable <your_bot_name>.service
 systemctl start <your_bot_name>.service
 systemctl status <your_bot_name>.service
