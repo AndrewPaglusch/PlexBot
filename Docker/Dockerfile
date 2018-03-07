@@ -4,6 +4,8 @@ FROM lsiobase/alpine:3.7
 ARG BUILD_DATE
 ARG VERSION
 
+ENV PLEXBOT_VERSION v0.2.0
+
 RUN \
  echo "**** install packages ****" && \
  apk add --no-cache \
@@ -21,7 +23,7 @@ RUN \
 
 RUN \
   echo "**** clone repository ****" && \
-  git clone https://github.com/AndrewPaglusch/PlexBot.git /plexbot
+  git clone -b ${PLEXBOT_VERSION} https://github.com/AndrewPaglusch/PlexBot.git /plexbot
 
 RUN \
   echo "**** Installing gem ****" && \
