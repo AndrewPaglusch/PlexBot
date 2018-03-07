@@ -66,6 +66,8 @@ docker-compose build --no-cache plexbot
 docker-compose up plexbot # use up -d to run it in daemonized mode instead of the foreground.
 ```
 
+Docker will fail the first time it starts (or it should) so that you can configure your settings.rb file in /opt/docker/config/plexbot/settings.rb. Configure it, start it up again.
+
 
 ## Without Docker (System Installation)
 
