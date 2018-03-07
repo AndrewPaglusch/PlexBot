@@ -39,4 +39,4 @@ else
 fi
 
 cd /plexbot
-screen -D -m -S plexbot s6-setuidgid abc ruby run.rb
+s6-setuidgid abc ruby run.rb
