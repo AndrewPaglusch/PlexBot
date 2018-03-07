@@ -33,6 +33,8 @@ docker logs -f plexbot # This lets you view logs
 Create a docker-compose.yml file with the following:
 
 ```yaml
+version: '2'
+services:
     plexbot:
         build:
           context: /opt/docker/build/docker-plexbot
