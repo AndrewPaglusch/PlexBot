@@ -58,7 +58,6 @@ PUID=997
 You can then build the image and start it. 
 
 ```bash
-cd /opt/docker
 mkdir -p /opt/docker/build
 cd /opt/docker/build
 git clone https://github.com/AndrewPaglusch/PlexBot.git
