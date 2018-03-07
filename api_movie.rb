@@ -72,7 +72,7 @@ def api_query_movie(query)
     #Make the request
     response = request.start {|req| req.get(url) }
   rescue
-    return $!.message
+    raise $!.message
   end
 
   return response.body

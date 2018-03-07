@@ -22,6 +22,7 @@
 @season_admin_cutoff = 10 #More than x season shows need to be downloaded by admin
 
 #Customizations
+@allowed_sources = ["private","group","supergroup"] #where your bot can be used. best to leave this alone
 @bot_username = "<telegram_bot_username>"
 @admin_name = "<first_name_of_telegram_group_admin"
 @admin_username = "<username_of_telegram_group_admin>"

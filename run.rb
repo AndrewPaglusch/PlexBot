@@ -29,11 +29,7 @@ def ack_callback(message, display_message = true)
 end
 
 def message_from_admin?(message)
-  if @admin_userids.include? message.from.id.to_s
-    return true
-  else
-    return false
-  end
+  return @admin_userids.include? message.from.id.to_s
 end
 
 def handle_callback_query(message)
@@ -135,7 +131,13 @@ def handle_exception(e, message, notify_users)
   puts "=" * 60
 
   if notify_users == true then
-    send_message(message.message.chat.id, "The bot has run into an issue while processing a request.\n\nAsk #{@admin_name} (@#{@admin_username}) for assistance.")
+    #is this a callback query or a message
+    case message
+      when Telegram::Bot::Types::Message
+        send_message(message.chat.id, "The bot has run into an issue while processing a request.\n\nAsk #{@admin_name} (@#{@admin_username}) for assistance.")
+      when Telegram::Bot::Types::CallbackQuery
+        send_message(message.message.chat.id, "The bot has run into an issue while processing a request.\n\nAsk #{@admin_name} (@#{@admin_username}) for assistance.")
+      end
   end
 end
 
@@ -167,6 +169,13 @@ def send_question(chatid, question_text, answers = [ ])
   end
 end
 
+def validate_incoming_data(message)
+  message = message.message if message.is_a? Telegram::Bot::Types::CallbackQuery
+  return "Received message is not from a valid source! Type: \"#{message.chat.type}\". Ignoring." if ! @allowed_sources.include?(message.chat.type) 
+  return "Unauthorized user sent message. User ID: #{message.from.id} Source ID: #{message.chat.id}." if ! @authorized_chatids.include?(message.chat.id.to_s)
+  return true
+end
+
 #DEBUG
 #puts get_show_profile_list
 #puts get_movie_profile_list
@@ -181,37 +190,28 @@ STDOUT.sync = true
 #Main loop - listen for new messages
 Telegram::Bot::Client.run(@token) do |bot|
   bot.listen do |message|
-    #Change message.from.username to something we can call the user
-    #This makes referring to the user in replies much easier
-    #@Username or their first name
 
-    if ! ["private","group","supergroup"].include?(message.chat.type)
-      puts "Received message is not from a valid source! Type: \"#{message.chat.type}\". Ignoring."
-      next
-    end
+    validation = validate_incoming_data(message)
 
-    if ! message.from.username.nil? #Username -> @Username
-      message.from.username = "@" + message.from.username + " "
-    elsif ! message.from.first_name.nil? #Username -> John
-      message.from.username = message.from.first_name + ", "
-    end
+    if validation == true then
+      #Change message.from.username to something we can call the user
+      #This makes referring to the user in replies much easier
+      #@Username or their first name
+      if ! message.from.username.nil? #Username -> @Username
+        message.from.username = "@" + message.from.username + " "
+      elsif ! message.from.first_name.nil? #Username -> John
+        message.from.username = message.from.first_name + ", "
+      end
 
-    #message or callback query?
-    case message
-      when Telegram::Bot::Types::Message
-        if @authorized_chatids.include? message.chat.id.to_s then
-           handle_message(message) #entrypoint for all messages
-        else  
-          begin
-            send_message(message.chat.id, "Not authorized. Group ID: '#{message.chat.id}'")
-            puts "Unauthorized user (#{message.chat.id}) sent message."
-          rescue
-          end
-        end
-      when Telegram::Bot::Types::CallbackQuery
-        if @authorized_chatids.include? message.message.chat.id.to_s then
+      case message
+        when Telegram::Bot::Types::Message
+          handle_message(message) #entrypoint for all messages
+        when Telegram::Bot::Types::CallbackQuery
           handle_callback_query(message) #entrypoint for all callback queries
         end
-      end
+    else
+      puts validation
+    end
+
   end
 end
