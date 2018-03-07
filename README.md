@@ -74,8 +74,8 @@ docker-compose up plexbot # use up -d to run it in daemonized mode instead of th
 ```bash
 yum -y install ruby rubygems
 gem install telegram-bot-ruby
-mkdir -p /opt/<your_telegram_bot_name/
-cd /opt/<your_telegram_bot_name/
+mkdir -p /opt/<your_telegram_bot_name>/
+cd /opt/<your_telegram_bot_name>/
 git clone https://github.com/AndrewPaglusch/PlexBot.git
 cp settings.rb-example settings.rb
 cp scripts-example scripts
