@@ -20,6 +20,7 @@ Add your Plex users to the Telegram group so they can use the bot to request new
 
 ```bash
 mkdir -p /opt/docker/build
+cd /opt/docker/build
 git clone https://github.com/AndrewPaglusch/PlexBot.git
 cd PlexBot/docker
 docker build -t local/plexbot:v0.2.0 # Replace version number with the current one.
@@ -58,6 +59,10 @@ You can then build the image and start it.
 
 ```bash
 cd /opt/docker
+mkdir -p /opt/docker/build
+cd /opt/docker/build
+git clone https://github.com/AndrewPaglusch/PlexBot.git
+cd PlexBot/docker
 docker-compose build --no-cache plexbot
 docker-compose up plexbot # use up -d to run it in daemonized mode instead of the foreground.
 ```
