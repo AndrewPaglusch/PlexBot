@@ -13,8 +13,13 @@ def search_movie(title)
   movies = Array.new
 
   results[:movies].each do |r|
-    movies.insert(-1, { :imdbid => r[:imdb], :title => r[:titles][0], :year => r[:year], :requested => r[:in_wanted], :downloaded => r[:in_library]})
+    if ! r[:imdb].nil?
+      movies.insert(-1, { :imdbid => r[:imdb], :title => r[:titles][0], :year => r[:year], :requested => r[:in_wanted], :downloaded => r[:in_library]})
+    end
   end
+
+  return if movies.count == 0
+
   return movies
 end
 
