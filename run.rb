@@ -4,6 +4,13 @@ require 'telegram/bot'
 require 'net/http'
 require 'pp'
 
+#sanity check before starting
+fail_msg = String.new
+fail_msg << "settings.rb is missing\n" if File.exist?('./settings.rb') == false
+fail_msg << "scripts directory is missing\n" if File.exist?('./scripts') == false
+fail_msg << "static_messages directory is missing\n" if File.exist?('./static_messages') == false
+abort("#{fail_msg}Aborting...") if ! fail_msg.empty?
+
 require_relative 'settings.rb' #Settings
 require_relative 'api_movie.rb' #CouchPotato API
 require_relative 'api_show.rb' #Sonarr API
