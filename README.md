@@ -14,29 +14,87 @@ Add your Plex users to the Telegram group so they can use the bot to request new
 
 # Installation
 
-## RHEL/CentOS 7.X
+## With Docker or Docker Compose 
 
+### Docker
+
+```bash
+mkdir -p /opt/docker/build
+cd /opt/docker/build
+git clone https://github.com/AndrewPaglusch/PlexBot.git
+cd PlexBot/docker
+docker build -t local/plexbot:v0.2.0 # Replace version number with the current one.
+docker create --name plexbot -v /opt/docker/config/plexbot:/config local/plexbot:v0.2.0
+docker start plexbot
+docker logs -f plexbot # This lets you view logs
 ```
+
+### Docker Compose
+
+Create a docker-compose.yml file with the following:
+
+```yaml
+version: '2'
+services:
+    plexbot:
+        build:
+          context: /opt/docker/build/docker-plexbot
+          dockerfile: Dockerfile
+        container_name: plexbot
+        volumes:
+          - /opt/docker/config/plexbot:/config
+          - /etc/localtime:/etc/localtime:ro
+        env_file: uidgid.env
+        restart: always
+```
+
+If you don't want to run plexbot as root, create a system account and assign uidgid.env the UID/GID of the system account:
+
+```bash
+PGID=995
+PUID=997
+```
+
+You can then build the image and start it. 
+
+```bash
+mkdir -p /opt/docker/build
+cd /opt/docker/build
+git clone https://github.com/AndrewPaglusch/PlexBot.git
+cd PlexBot/docker
+docker-compose build --no-cache plexbot
+docker-compose up plexbot # use up -d to run it in daemonized mode instead of the foreground.
+```
+
+Docker will fail the first time it starts (or it should) so that you can configure your settings.rb file in /opt/docker/config/plexbot/settings.rb. Configure it, start it up again.
+
+
+## Without Docker (System Installation)
+
+### RHEL/CentOS 7.X
+
+```bash
 yum -y install ruby rubygems
 gem install telegram-bot-ruby
-mkdir -p /opt/<your_telegram_bot_name/
-cd /opt/<your_telegram_bot_name/
-git clone git@github.com:AndrewPaglusch/PlexBot.git
+mkdir -p /opt/<your_telegram_bot_name>/
+cd /opt/<your_telegram_bot_name>/
+git clone https://github.com/AndrewPaglusch/PlexBot.git
 cp settings.rb-example settings.rb
 cp scripts-example scripts
 #edit your settings.rb file
 #edit scripts in scripts directory
 ```
 
-# Daemonize
+### Daemonize
 
-## Make the Service
+#### Make the Service
 
 Create this file `/etc/systemd/system/<your_bot_name>.service`. 
 
 Insert the following:
 
-```[Unit]
+```bash
+[Unit]
 Description=<your_bot_name> Telegram Bot
 After=network.target
 
@@ -51,9 +109,9 @@ RestartSec=15
 WantedBy=multi-user.target
 ```
 
-## Enable & Start
+### Enable & Start
 
-```
+```bash
 systemctl enable <your_bot_name>.service
 systemctl start <your_bot_name>.service
 systemctl status <your_bot_name>.service
