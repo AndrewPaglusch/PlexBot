@@ -48,7 +48,10 @@ def handle_callback_query(message)
 
   if command.start_with?('!') then
     #verify an admin pressed this button
-    return if message_from_admin?(message) == false
+    if ! message_from_admin?(message)
+      Telegram::Bot::Client.run(@token) {|bot| bot.api.answerCallbackQuery(callback_query_id: message.id, show_alert: false, text: "Requires admin approval")}
+      return
+    end
     command = command.split("!")[1]
   elsif command.start_with?('#') then
     #is this an ignored command
