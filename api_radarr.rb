@@ -1,38 +1,34 @@
-def search_show(title)
+def search_movie(title)
   
-  def search_movie(title)
-    query = "movie.search?q=#{title}"
-    results = JSON.parse(api_query_movie(query), :symbolize_names => true)
-   
-    #movies = multiple results
-    #movie = one result
-    if ! results[:movie].nil? then
-      results[:movies] = results[:movie]
-    end
-  
-    return if results[:movies] == nil
-    
-    movies = Array.new
-  
-    results[:movies].each do |r|
-      if ! r[:imdb].nil?
-        movies.insert(-1, { :imdbid => r[:imdb], :title => r[:titles][0], :year => r[:year], :requested => r[:in_wanted], :downloaded => r[:in_library]})
-      end
-    end
-  
-    return if movies.count == 0
-  
-    return movies
+  #Look up imdbid of all already-downloaded movies
+  #Used for checking if the searched movie is already downloaded or not
+  imdbid_have_list = Array.new
+  JSON.parse(api_query("movie", ""), :symbolize_names => true).each do |movie|
+    imdbid_have_list.push(movie[:imdbid])
   end
+
+  results = JSON.parse(api_query("movie/lookup", "term=#{title}"), :symbolize_names => true)
+
+  return if results.count == 0
+
+  movies = Array.new
+  results.each do |r|
+    if ! r[:imdbid].nil?
+      movies.insert(-1, { :imdbid => r[:imdbid], :title => r[:title], :year => r[:year], :downloaded => search_movie_local(r[:imdbid]),:season_count => r[:seasons].count})
+    end
+  end
+
+  return movies
+end
   
   def movie_imdbid_to_title(imdbid)
     movie = search_movie("#{imdbid}")
     return movie[0][:title]
   end
 
-def add_show(imdbid)
-  #Search for this show via imdbid to get it as the only result
-  #Sonarr needs the JSON from the result as the submission to actually download the show
+def add_movie(imdbid)
+  #Search for this movie via imdbid to get it as the only result
+  #Sonarr needs the JSON from the result as the submission to actually download the movie
   search_results = JSON.parse(api_query("movie/lookup", "term=tvdb:#{imdbid}"))[0]
 
   #Copy over only the objects that Sonarr requires from the search result JSON 
@@ -60,13 +56,13 @@ def add_show(imdbid)
   if add_results['imdbid'].to_s == imdbid
     return true, add_results['title'], album_art_url
   else
-    puts "Failure adding show! imdbid: #{imdbid}. Dumping response object..."
+    puts "Failure adding movie! imdbid: #{imdbid}. Dumping response object..."
     pp add_results
     return false, search_results['title'], nil, add_results['errorMessage']
   end
 end
 
-def get_show_profile_list
+def get_movie_profile_list
   endpoint = "profile"
 
   results = JSON.parse(api_query(endpoint, ""))
@@ -78,9 +74,9 @@ def get_show_profile_list
   return profiles
 end
 
-def search_show_local(imdbid)
-  JSON.parse(api_query("movie", ""), :symbolize_names => true).each do |show|
-    return true if show[:imdbid] == imdbid
+def search_movie_local(imdbid)
+  JSON.parse(api_query("movie", ""), :symbolize_names => true).each do |movie|
+    return true if movie[:imdbid] == imdbid
   end
   return false
 end
