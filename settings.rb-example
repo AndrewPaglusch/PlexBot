@@ -23,12 +23,12 @@
 @couchpotato_timeout = 10
 
 #Sonarr Stuff
-@show_url = "http://<ip_address_or_hostname_of_sonarr>"
-@show_port = <sonarr_port> #port Sonarr is listening on
-@show_context = "" #if Sonarr is at 1.2.3.4/sonarr/ or some other context
-@show_api_key = "<sonarr_api_key>"
-@show_profile_id = "<sonarr_quality_profile_id>" 
-@show_timeout = 10
+@sonarr_url = "http://<ip_address_or_hostname_of_sonarr>"
+@sonarr_port = <sonarr_port> #port Sonarr is listening on
+@sonarr_context = "" #if Sonarr is at 1.2.3.4/sonarr/ or some other context
+@sonarr_api_key = "<sonarr_api_key>"
+@sonarr_profile_id = "<sonarr_quality_profile_id>" 
+@sonarr_timeout = 10
 @season_admin_cutoff = 10 #More than x season shows need to be downloaded by admin
 
 
