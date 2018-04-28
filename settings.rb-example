@@ -4,13 +4,21 @@
 
 @admin_userids = [ "1234567" ] #Authorized Telegram UIDs that can run '/a' admin commands
 
+#Radarr Stuff
+@radarr_url = "http://<ip_address_or_hostname_of_radarr>"
+@radarr_port = <radarr_port> #port radarr is listening on
+@radarr_context = "" #if radarr is at 1.2.3.4/radarr/ or some other context
+@radarr_api_key = "<radarr_api_key>"
+@radarr_profile_id = "<radarr_quality_profile_id>" 
+@radarr_timeout = 10
+
 #Couchpotato Stuff
-@movie_url = "http://<ip_address_or_hostname_of_couchpotato>"
-@movie_context = "" #if CP is at 1.2.3.4/couchpotato/ or some other context
-@movie_port = "<couchpotato_port>"
-@movie_api_key = "<couchpotato_api_key>"
-@movie_profile_id = "<couchpotato_quality_profile_id>"
-@movie_timeout = 10
+@couchpotato_url = "http://<ip_address_or_hostname_of_couchpotato>"
+@couchpotato_context = "" #if CP is at 1.2.3.4/couchpotato/ or some other context
+@couchpotato_port = "<couchpotato_port>"
+@couchpotato_api_key = "<couchpotato_api_key>"
+@couchpotato_profile_id = "<couchpotato_quality_profile_id>"
+@couchpotato_timeout = 10
 
 #Sonarr Stuff
 @show_url = "http://<ip_address_or_hostname_of_sonarr>"
@@ -20,6 +28,7 @@
 @show_profile_id = "<sonarr_quality_profile_id>" 
 @show_timeout = 10
 @season_admin_cutoff = 10 #More than x season shows need to be downloaded by admin
+
 
 #Customizations
 @allowed_sources = ["private","group","supergroup"] #where your bot can be used. best to leave this alone
