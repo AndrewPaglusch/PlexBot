@@ -37,14 +37,13 @@ def add_show(imdbid)
 
   #Copy over only the objects that Sonarr requires from the search result JSON 
   search_json = Hash.new
-  search_json['imdbid'] = search_results['imdbid']
+  search_json['imdbId'] = search_results['imdbid']
   search_json['title'] = search_results['title']
   search_json['qualityProfileId'] = search_results['qualityProfileId']
   search_json['titleSlug'] = search_results['titleSlug']
   search_json['images'] = search_results['images']
-  search_json['seasons'] = search_results['seasons']
   search_json['rootFolderPath'] = JSON.parse(api_query("rootfolder", ""))[0]['path']
-  search_json['ProfileId'] = @sonarr_profile_id
+  search_json['profileId'] = @sonarr_profile_id
 
   #Get album art from search_results
   album_art_url = search_results['remotePoster']
