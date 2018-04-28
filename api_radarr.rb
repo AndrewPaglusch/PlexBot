@@ -30,14 +30,14 @@ def search_show(title)
     return movie[0][:title]
   end
 
-def add_show()
-  #Search for this show via tvdbid to get it as the only result
+def add_show(imdbid)
+  #Search for this show via imdbid to get it as the only result
   #Sonarr needs the JSON from the result as the submission to actually download the show
-  search_results = JSON.parse(api_query("series/lookup", "term=tvdb:#{tvdbid}"))[0]
+  search_results = JSON.parse(api_query("movie/lookup", "term=tvdb:#{imdbid}"))[0]
 
   #Copy over only the objects that Sonarr requires from the search result JSON 
   search_json = Hash.new
-  search_json['tvdbId'] = search_results['tvdbId']
+  search_json['imdbid'] = search_results['imdbid']
   search_json['title'] = search_results['title']
   search_json['qualityProfileId'] = search_results['qualityProfileId']
   search_json['titleSlug'] = search_results['titleSlug']
@@ -50,7 +50,7 @@ def add_show()
   album_art_url = search_results['remotePoster']
 
   #POST the 'search_json.to_json' text to Sonarr to start the download
-  add_results = JSON.parse(api_query('series', '', search_json.to_json))
+  add_results = JSON.parse(api_query('movie', '', search_json.to_json))
 
   #success message is a hash {}. errors are an array [] of hashes {}
   #extract the hash at index 0 of error array so that it's just a hash
@@ -58,10 +58,10 @@ def add_show()
     add_results = add_results[0]
   end
 
-  if add_results['tvdbId'].to_s == tvdbid
+  if add_results['imdbid'].to_s == imdbid
     return true, add_results['title'], album_art_url
   else
-    puts "Failure adding show! tvdbID: #{tvdbid}. Dumping response object..."
+    puts "Failure adding show! imdbid: #{imdbid}. Dumping response object..."
     pp add_results
     return false, search_results['title'], nil, add_results['errorMessage']
   end
@@ -80,8 +80,8 @@ def get_show_profile_list
 end
 
 def search_show_local(imdbid)
-  JSON.parse(api_query("series", ""), :symbolize_names => true).each do |show|
-    return true if show[:tvdbId] == imdbid
+  JSON.parse(api_query("movie", ""), :symbolize_names => true).each do |show|
+    return true if show[:imdbid] == imdbid
   end
   return false
 end
