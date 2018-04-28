@@ -35,7 +35,7 @@ def add_show(tvdbid)
   search_json['images'] = search_results['images']
   search_json['seasons'] = search_results['seasons']
   search_json['rootFolderPath'] = JSON.parse(api_query("rootfolder", ""))[0]['path']
-  search_json['ProfileId'] = @show_profile_id
+  search_json['ProfileId'] = @sonarr_profile_id
 
   #Get album art from search_results
   album_art_url = search_results['remotePoster']
@@ -78,14 +78,14 @@ def search_show_local(imdbid)
 end
 
 def api_query(endpoint, query, postdata = "")
-  url = URI.parse("#{@show_url}:#{@show_port}#{@show_context}/api/#{endpoint}?#{URI.escape(query)}&apikey=#{@show_api_key}")
+  url = URI.parse("#{@sonarr_url}:#{@sonarr_port}#{@sonarr_context}/api/#{endpoint}?#{URI.escape(query)}&apikey=#{@sonarr_api_key}")
 
   if postdata == "" then
     #Request being made without POST data
     request = Net::HTTP.new(url.host, url.port)
     request.use_ssl = url.scheme == 'https'
-    request.read_timeout = @show_timeout
-    request.open_timeout = @show_timeout
+    request.read_timeout = @sonarr_timeout
+    request.open_timeout = @sonarr_timeout
   
     begin
       #Make the request
@@ -99,8 +99,8 @@ def api_query(endpoint, query, postdata = "")
     #Request being made via POST
     request = Net::HTTP::Post.new(url)
     request.body = postdata
-    #request.read_timeout = @show_timeout
-    #request.open_timeout = @show_timeout
+    #request.read_timeout = @sonarr_timeout
+    #request.open_timeout = @sonarr_timeout
     
     #Make the request    
     begin

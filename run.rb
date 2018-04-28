@@ -12,8 +12,17 @@ fail_msg << "static_messages directory is missing\n" if File.exist?('./static_me
 abort("#{fail_msg}Aborting...") if ! fail_msg.empty?
 
 require_relative 'settings.rb' #Settings
-require_relative 'api_movie.rb' #CouchPotato API
-require_relative 'api_show.rb' #Sonarr API
+
+if @movie_source == "couchpotato"
+  require_relative 'api_couchpotato.rb' #CouchPotato API
+elsif @movie_source == "radarr"
+  require_relative 'api_radarr.rb' #Radarr API
+else
+  fail_msg << "movie_source is not specified\n"
+  abort("#{fail_msg}Aborting...") if ! fail_msg.empty?
+end
+
+require_relative 'api_sonarr.rb' #Sonarr API
 require_relative 'commands.rb' #/X Telegram command methods
 require_relative 'callbacks.rb' #Telegram callback methods
 

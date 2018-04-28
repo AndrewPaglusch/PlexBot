@@ -64,14 +64,14 @@ end
 
 
 def api_query_movie(query)
-  url = URI.parse("#{@movie_url}:#{@movie_port}#{@movie_context}/api/#{@movie_api_key}/#{URI.escape(query)}")
+  url = URI.parse("#{@couchpotato_url}:#{@couchpotato_port}#{@couchpotato_context}/api/#{@couchpotato_api_key}/#{URI.escape(query)}")
 
   request = Net::HTTP.new(url.host, url.port)
 
   #Set timeout and scheme
   request.use_ssl = url.scheme == 'https'
-  request.read_timeout = @movie_timeout
-  request.open_timeout = @movie_timeout
+  request.read_timeout = @couchpotato_timeout
+  request.open_timeout = @couchpotato_timeout
 
   begin
     #Make the request
