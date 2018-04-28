@@ -18,7 +18,7 @@ if @movie_source == "couchpotato"
 elsif @movie_source == "radarr"
   require_relative 'api_radarr.rb' #Radarr API
 else
-  fail_msg << "movie_source is not specified\n"
+  fail_msg << "movie_source is not specified or incorrect\n"
   abort("#{fail_msg}Aborting...") if ! fail_msg.empty?
 end
 
