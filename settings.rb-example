@@ -4,6 +4,8 @@
 
 @admin_userids = [ "1234567" ] #Authorized Telegram UIDs that can run '/a' admin commands
 
+@movie_source = "couchpotato" # This setting can either be couchpotato or radarr.
+
 #Radarr Stuff
 @radarr_url = "http://<ip_address_or_hostname_of_radarr>"
 @radarr_port = <radarr_port> #port radarr is listening on
