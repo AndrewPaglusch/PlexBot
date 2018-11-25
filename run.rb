@@ -21,17 +21,26 @@ def ack_callback(message, display_message = true)
   #Delete message and notify user that we got the request
   begin
     Telegram::Bot::Client.run(@token) do |bot|
-      #bot.api.editMessageReplyMarkup(chat_id:message.message.chat.id, message_id: message.message.message_id, reply_markup: "") #Removes buttons
       if display_message == true
-        bot.api.editMessageText(chat_id:message.message.chat.id, message_id: message.message.message_id, text: "#{message.from.username}Request received. Please wait...", reply_markup: "") #Removes buttons. Changes text
-        bot.api.answerCallbackQuery(callback_query_id: message.id, show_alert: false, text: "Request received. Please wait...") #Sends a notification
+        bot.api.editMessageText(chat_id: message.message.chat.id, message_id: message.message.message_id, text: "#{message.from.username}Request received. Please wait...", reply_markup: "") #Removes buttons. Changes text
+        bot.api.answerCallbackQuery(callback_query_id: message.id, show_alert: false, text: "Request received. Please wait...") #Sends a pop-up notification
       else
-        bot.api.deleteMessage(chat_id:message.message.chat.id, message_id: message.message.message_id) #Deletes message and buttons
+        bot.api.deleteMessage(chat_id: message.message.chat.id, message_id: message.message.message_id) #Deletes message and buttons
       end
-      #bot.api.deleteMessage(chat_id:message.message.chat.id, message_id: message.message.message_id) #Deletes message and buttons
     end
   rescue
     puts "Error handling callback query. Error: " + $!.message
+  end
+end
+
+def delete_message(message)
+  #Deletes a message referred to by message_id
+  begin
+    Telegram::Bot::Client.run(@token) do |bot|
+        bot.api.deleteMessage(chat_id: message.message.chat.id, message_id: message.message.message_id) #Deletes message and buttons
+    end
+  rescue
+    puts "Error deleting message. Error: " + $!.message
   end
 end
 
@@ -58,20 +67,20 @@ def handle_callback_query(message)
     return
   end
 
+  ack_callback(message) #Change the movie/show selection message to "Request received..."
+
   case command
     when "DLM" #download movie
-      ack_callback(message)
       process_callback_dlm(message)
     when "DLS" #download show
-      ack_callback(message)
       process_callback_dls(message)
     when "RDLM" #force re-download movie
-      ack_callback(message) #maybe add ",false"??
       process_callback_rdlm(message)
     when "NRDLM" #don't re-download movie
-      ack_callback(message, false)
       process_callback_nrdlm(message)
   end
+
+  delete_message(message) #Delete the "Request received..." message
 rescue => e
   handle_exception(e, message, true)
 end
