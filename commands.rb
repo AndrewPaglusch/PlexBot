@@ -46,17 +46,13 @@ def process_command_s(message)
   else
     options = [ ]
     results.each do |s|
-      if s[:season_count] == 1 then
-        button_text = "#{s[:title]} (#{s[:year]}) - #{s[:season_count]} Season"
-      else
-        button_text = "#{s[:title]} (#{s[:year]}) - #{s[:season_count]} Seasons"
-      end
+      button_text = "#{s[:title]} (#{s[:year]}) - #{s[:season_count]} Seasons"
+      button_text = "#{s[:title]} (#{s[:year]}) - #{s[:season_count]} Season" if s[:season_count] == 1
+
+      # prepend a '-' if the show has ended
+      button_text = "- " + button_text if s[:status] == "ended"
 
       callback_data = "DLS|#{s[:tvdbid]}"
-
-      if s[:status] == "ended" then
-        button_text = "- " + button_text
-      end
       
       if s[:downloaded] == true then
         button_text = "* " + button_text
