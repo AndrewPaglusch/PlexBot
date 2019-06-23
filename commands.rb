@@ -71,7 +71,7 @@ def process_command_s(message)
 
     message_text = "#{message.from.username}What show(s) would you like?\n\n"
     message_text += "Shows prepended with '+' will need to be downloaded by an admin due to their size\n"
-    message_text += "Shows prepended with '-' are no longer a continuing series.\n"
+    message_text += "Shows prepended with '-' are no longer airing shows.\n"
     message_text += "Ask @#{@admin_username} to approve these items.\n\n"
     message_text += "Shows prepended with '*' have already been requested\n"
     send_question(message.chat.id, message_text, options)
