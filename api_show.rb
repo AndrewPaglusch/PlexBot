@@ -37,8 +37,7 @@ def add_show(tvdbid)
   search_json['ProfileId'] = @show_profile_id
 
   # Set the rootFolderPath for the show based on settings
-  rootFolder = JSON.parse(api_query("rootfolder", ""))[0]['path']
-  search_json['rootFolderPath'] = "#{rootFolder}" if ! @show_cancelled_different_location | (@show_cancelled_different_location || ! defined?(@show_cancelled_location))
+  search_json['rootFolderPath'] = JSON.parse(api_query("rootfolder", ""))[0]['path'] if ! @show_cancelled_different_location | (@show_cancelled_different_location || ! defined?(@show_cancelled_location))
   search_json['rootFolderPath'] = "#{@show_cancelled_location}" if @show_cancelled_different_location and defined?(@show_cancelled_location)
 
   #Get album art from search_results
