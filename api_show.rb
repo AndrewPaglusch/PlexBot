@@ -36,23 +36,10 @@ def add_show(tvdbid)
   search_json['seasons'] = search_results['seasons']
   search_json['ProfileId'] = @show_profile_id
 
-  # check if @show_cancelled_different_location is defined or set to false
-  # if set to true, set the rootFolderPath to @show_cancelled_location
+  # Set the rootFolderPath for the show based on settings
   rootFolder = JSON.parse(api_query("rootfolder", ""))[0]['path']
-
-  if @show_cancelled_different_location then
-    if defined?(@show_cancelled_location) then
-      if search_results['status'] == "ended" then
-        search_json['rootFolderPath'] = "#{@show_cancelled_location}"
-      else
-        search_json['rootFolderPath'] = "#{rootFolder}"
-      end
-    else
-      search_json['rootFolderPath'] = "#{rootFolder}"
-    end
-  else
-    search_json['rootFolderPath'] = "#{rootFolder}"
-  end
+  search_json['rootFolderPath'] = "#{rootFolder}" if ! @show_cancelled_different_location | (@show_cancelled_different_location || ! defined? (@show_cancelled_location))
+  search_json['rootFolderPath'] = "#{@show_cancelled_location}" if @show_cancelled_different_location and defined?(@show_cancelled_location)
 
   #Get album art from search_results
   album_art_url = search_results['remotePoster']
