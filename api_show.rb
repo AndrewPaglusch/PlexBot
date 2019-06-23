@@ -14,7 +14,7 @@ def search_show(title)
   shows = Array.new
   results.each do |r|
     if ! r[:tvdbId].nil?
-      shows.insert(-1, { :tvdbid => r[:tvdbId], :title => r[:title], :year => r[:year], :downloaded => search_show_local(r[:tvdbId]),:season_count => r[:seasons].count})
+      shows.insert(-1, { :tvdbid => r[:tvdbId], :title => r[:title], :year => r[:year], :status => r[:status], :downloaded => search_show_local(r[:tvdbId]),:season_count => r[:seasons].count})
     end
   end
 
@@ -34,8 +34,25 @@ def add_show(tvdbid)
   search_json['titleSlug'] = search_results['titleSlug']
   search_json['images'] = search_results['images']
   search_json['seasons'] = search_results['seasons']
-  search_json['rootFolderPath'] = JSON.parse(api_query("rootfolder", ""))[0]['path']
   search_json['ProfileId'] = @show_profile_id
+
+  # check if @show_cancelled_different_location is defined or set to false
+  # if set to true, set the rootFolderPath to @show_cancelled_location
+  rootFolder = JSON.parse(api_query("rootfolder", ""))[0]['path']
+
+  if @show_cancelled_different_location then
+    if defined?(@show_cancelled_location) then
+      if search_results['status'] == "ended" then
+        search_json['rootFolderPath'] = "#{@show_cancelled_location}"
+      else
+        search_json['rootFolderPath'] = "#{rootFolder}"
+      end
+    else
+      search_json['rootFolderPath'] = "#{rootFolder}"
+    end
+  else
+    search_json['rootFolderPath'] = "#{rootFolder}"
+  end
 
   #Get album art from search_results
   album_art_url = search_results['remotePoster']
