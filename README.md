@@ -51,14 +51,14 @@ docker-compose up -d
 
 # Default PlexBot Commands
 
-## `/help`
+### `/help`
 Show supported PlexBot commands
 
-## `/movie` OR `/m <movie name>`
+### `/movie` OR `/m <movie name>`
 Request that PlexBot search for and download a movie via Couch Potato
 
-## `/show` OR `/s <show name>`
+### `/show` OR `/s <show name>`
 Request that PlexBot search for and download a show via Sonarr
 
-## `/admin` OR `/a <command>`
+### `/admin` OR `/a <command>`
 Run an admin-only command. Admin UIDs are listed in the `settings.rb` file
