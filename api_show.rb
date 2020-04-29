@@ -36,6 +36,11 @@ def add_show(tvdbid)
   search_json['seasons'] = search_results['seasons']
   search_json['rootFolderPath'] = JSON.parse(api_query("rootfolder", ""))[0]['path']
   search_json['ProfileId'] = @show_profile_id
+  search_json['addOptions'] = { 
+    "ignoreEpisodesWithFiles": false,
+    "ignoreEpisodesWithoutFiles": false,
+    "searchForMissingEpisodes": true
+  }
 
   #Get album art from search_results
   album_art_url = search_results['remotePoster']
