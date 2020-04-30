@@ -4,7 +4,7 @@ FROM lsiobase/alpine:3.7
 ARG BUILD_DATE
 ARG VERSION
 
-ENV PLEXBOT_VERSION v0.2.1
+ENV PLEXBOT_VERSION master
 
 RUN \
  echo "**** install packages ****" && \
