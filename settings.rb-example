@@ -17,7 +17,9 @@
 @show_port = <sonarr_port> #port Sonarr is listening on
 @show_context = "" #if Sonarr is at 1.2.3.4/sonarr/ or some other context
 @show_api_key = "<sonarr_api_key>"
-@show_profile_id = "<sonarr_quality_profile_id>" 
+@show_profile_id = "<sonarr_quality_profile_id>"
+@show_cancelled_different_location = false # If you want cancelled TV to go to a folder different from the default, you want this to be true. 
+@show_cancelled_location = "/your/file/path" # If the above is true, specify a location. If you do not, it will use the default.
 @show_timeout = 10
 @season_admin_cutoff = 10 #More than x season shows need to be downloaded by admin
 

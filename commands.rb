@@ -46,7 +46,12 @@ def process_command_s(message)
   else
     options = [ ]
     results.each do |s|
-      button_text = "#{s[:title]} (#{s[:year]}) - #{s[:season_count]} Seasons" 
+      button_text = "#{s[:title]} (#{s[:year]}) - #{s[:season_count]} Seasons"
+      button_text = "#{s[:title]} (#{s[:year]}) - #{s[:season_count]} Season" if s[:season_count] == 1
+
+      # prepend a '-' if the show has ended
+      button_text = "- " + button_text if s[:status] == "ended"
+
       callback_data = "DLS|#{s[:tvdbid]}"
       
       if s[:downloaded] == true then
@@ -66,6 +71,7 @@ def process_command_s(message)
 
     message_text = "#{message.from.username}What show(s) would you like?\n\n"
     message_text += "Shows prepended with '+' will need to be downloaded by an admin due to their size\n"
+    message_text += "Shows prepended with '-' are no longer airing shows.\n"
     message_text += "Ask @#{@admin_username} to approve these items.\n\n"
     message_text += "Shows prepended with '*' have already been requested\n"
     send_question(message.chat.id, message_text, options)
