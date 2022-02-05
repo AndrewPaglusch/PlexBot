@@ -1,4 +1,4 @@
-FROM lsiobase/alpine:3.7
+FROM lsiobase/alpine:3.11
 
 # set version label
 ARG BUILD_DATE
@@ -12,7 +12,6 @@ RUN \
 	ca-certificates \
 	curl \
 	tar \
-	unrar \
 	unzip \
 	wget \
   git \
